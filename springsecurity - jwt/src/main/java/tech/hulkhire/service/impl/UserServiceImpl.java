@@ -1,9 +1,13 @@
 package tech.hulkhire.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tech.hulkhire.exception.UserNotFoundException;
@@ -15,19 +19,23 @@ import tech.hulkhire.pojo.UserRequest;
 import tech.hulkhire.pojo.UserResponse;
 import tech.hulkhire.pojo.UserUpdateRequest;
 import tech.hulkhire.repository.UserRepository;
+import tech.hulkhire.security.UserDetailsServiceImpl;
 import tech.hulkhire.service.UserService;
+import tech.hulkhire.utils.JwtUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepo;
-    @Autowired
     private PasswordEncoder passwordEncoder;
+    private AuthenticationManager authenticationManager;
+    private UserDetailsServiceImpl userDetailsService;
+    private JwtUtil jwtUtil;
 
     @Override
     public UserResponse saveUser(UserRequest userReq) {
@@ -89,6 +97,14 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepo.save(user);
 
         return mapToUserResponse(savedUser);
+    }
+
+    @Override
+    public String loginUser(UserLoginRequest user) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        return jwtUtil.generateToken(userDetails.getUsername());
     }
 
     public UserResponse mapToUserResponse(User user) {

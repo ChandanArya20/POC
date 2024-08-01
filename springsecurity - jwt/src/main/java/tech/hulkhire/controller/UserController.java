@@ -29,8 +29,8 @@ public class UserController {
     }
     
     @PostMapping("signin")
-    public String signInUser(UserLoginRequest user){
-       return "Loggedin";
+    public String signInUser(@RequestBody UserLoginRequest user){
+        return userService.loginUser(user);
     }
 
     @GetMapping
@@ -41,7 +41,6 @@ public class UserController {
 
     @PutMapping
     public UserResponse updateUser(@RequestBody UserUpdateRequest userReq){
-
         return userService.updateUser(userReq);
     }
 }

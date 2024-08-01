@@ -20,4 +20,6 @@ public interface UserService {
     List<UserResponse> fetchAllUsers();
 
     UserResponse makeUserAdmin(UserLoginRequest userReq);
+
+    String loginUser(UserLoginRequest user);
 }
