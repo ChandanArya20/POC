@@ -20,9 +20,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private RedisService redisService;
-
     @Cacheable(value = "users", key = "#id")
     public Optional<User> getUserById(Long id) {
         log.info("Fetching user with id {} from database", id);

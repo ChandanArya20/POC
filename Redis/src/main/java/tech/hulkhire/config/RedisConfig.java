@@ -20,6 +20,7 @@ public class RedisConfig {
 
         // Use JSON serializer for values
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+//        redisTemplate.setValueSerializer(new StringRedisSerializer());
         return redisTemplate;
     }
 }
