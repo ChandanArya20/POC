@@ -1,5 +1,7 @@
 import test.model.Student;
-import test.service.DBSevice;
+import test.service.DBService;
+import test.service.DBService2;
+import test.service.DBSevice1;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,8 +9,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        DBSevice dbSevice = new DBSevice();
-        var allStudents = dbSevice.getAllStudents();
+        DBService dbService = new DBService2();
+        var allStudents = dbService.getAllStudents();
         System.out.println(allStudents);
 
         var students = new ArrayList<Student>();
@@ -20,6 +22,6 @@ public class Main {
         students.add(new Student(4, "Emily Davis", 104, "Houston"));
         students.add(new Student(5, "David Wilson", 105, "Phoenix"));
 
-        dbSevice.saveStudents(students);
+//        dbService.saveStudents(students);
     }
 }

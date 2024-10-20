@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DBSevice {
+public class DBSevice1 implements DBService{
     private Connection connection;
     private PreparedStatement statement;
     private ResultSet resultSet;
 
-    public DBSevice() throws SQLException {
+    public DBSevice1() throws SQLException {
         connection = DriverManager.getConnection("jdbc:mysql:///jdbctest", "root", "2002ckc+");
         System.out.println("Connection established with DB successfully");
     }
